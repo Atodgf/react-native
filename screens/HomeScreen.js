@@ -1,24 +1,28 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import React from "react";
+import {Text, View, Image} from "react-native";
 
-const HomeScreen = ({navigation}) => {
-    return (
-      <View style={styles.container}>
-        <Text>Home Screen</Text>
-        <Button 
-          title="Go to details screen"
-          onPress={() => navigation.navigate("Details")}
-        />
-      </View>
-    );
-  }
 
-export default HomeScreen;
+export default class Login extends React.Component{
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
-    alignItems: 'center', 
-    justifyContent: 'center'
-  },
-});
+    render () {
+        const {navigate} = this.props.navigation
+        return (
+            <View style={{backgroundColor:"#FFF", height: "100%"}}>
+                <Image source={require('../images/home.jpg')}
+                    style={{width: "100%", height:"50%"}}
+                />
+                
+                <View style={{
+                    flexDirection:"row",
+                    alignItem: "center",
+                    marginHorizontal:55,
+                    marginTop:50,
+                    paddingHorizontal:10,
+                    paddingVertical:2
+                }}>
+                    <Text>Welcome to Home Page!</Text>
+                </View>
+            </View>
+        )
+    }
+}

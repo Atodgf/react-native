@@ -6,8 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 
 import HomeScreen from './HomeScreen'
 import DetailsScreen from './DetailsScreen'
-import ExploreScreen from './ExploreScreen'
-import ProfileScreen from './ProfileScreen'
+
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
@@ -42,26 +41,7 @@ const MainTabScreen = () => (
           ),
         }}
       />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarLabel: 'Profile',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="ios-person" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Explore"
-        component={ExploreScreen}
-        options={{
-          tabBarLabel: 'Explore',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="ios-aperture" color={color} size={size} />
-          ),
-        }}
-      />
+      
     </Tab.Navigator>
 )
 
@@ -78,8 +58,7 @@ const HomeStackScreen = ({navigation}) => (
         title: 'Overview',
         headerLeft: () => (
           <Icon.Button name="apps-outline" size={25}
-          backgroundColor="#009387" onPress={() => navigation.
-          openDrawer()}></Icon.Button>
+          backgroundColor="#009387" onPress={() => navigation.openDrawer()}></Icon.Button>
         )
     }}/>
   </HomeStack.Navigator>
@@ -95,8 +74,7 @@ const DetailsStackScreen = ({navigation}) => (
     <DetailsStack.Screen name="Details" component={DetailsScreen} options={{
       headerLeft: () => (
           <Icon.Button name="apps-outline" size={25}
-          backgroundColor="#009387" onPress={() => navigation.
-          openDrawer()}></Icon.Button>
+          backgroundColor="#009387" onPress={() => navigation.openDrawer()}></Icon.Button>
         )
   }}/>
 </DetailsStack.Navigator>

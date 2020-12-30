@@ -14,9 +14,14 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
+import { AuthContext } from '../components/context'
 
 export default function DrawerContent (props) {
     const [isDarkTheme, setIsDarkTheme] = React.useState(false)
+
+    const { signOut } = React.useContext(AuthContext)
+
+    const { HomeScreen } = React.useContext(AuthContext)
 
     const toggleTheme = () => {
         setIsDarkTheme(!isDarkTheme)
@@ -58,41 +63,10 @@ export default function DrawerContent (props) {
                                 />
                             )}
                                 label="Home"
-                                onPress={() => {props.navigation.navigate('Home')}}
+                                onPress={() => {props.navigation.navigate('HomeScreen')}}
                         />
-                        <Drawer.Item 
-                            icon={({color, size}) => (
-                                <Icon 
-                                    name="account-outline"
-                                    color={color}
-                                    size={size}
-                                />
-                                )}
-                                label="Profile"
-                                onPress={() => {props.navigation.navigate('Profile')}}
-                            />
-                        <Drawer.Item 
-                            icon={({color, size}) => (
-                                <Icon 
-                                    name="bookmark-outline"
-                                    color={color}
-                                    size={size}
-                                />
-                                )}
-                                label="Bookmarks"
-                                onPress={() => {props.navigation.navigate('BookmarkScreen')}}
-                            />   
-                        <Drawer.Item 
-                        icon={({color, size}) => (
-                                <Icon 
-                                    name="cog-outline"
-                                    color={color}
-                                    size={size}
-                                />
-                                )}
-                                label="Settings"
-                                onPress={() => {props.navigation.navigate('SettingsScreen')}}
-                            />   
+                         
+                         
                         <Drawer.Item 
                         icon={({color, size}) => (
                                 <Icon 
@@ -101,9 +75,9 @@ export default function DrawerContent (props) {
                                     size={size}
                                 />
                                 )}
-                                label="Support"
-                                onPress={() => {props.navigation.navigate('SupportScreen')}}
-                            />           
+                                label="Details"
+                                onPress={() => {props.navigation.navigate('DetailsScreen')}}
+                            />                
                     </Drawer.Section>
                     <Drawer.Section title="Preferences">
                             <TouchableRipple onPress={() => {toggleTheme()}}>
@@ -127,7 +101,7 @@ export default function DrawerContent (props) {
                         />
                     )}
                     label="Sign out"
-                    onPress={() => {}}
+                    onPress={() => {signOut()}}
                 />
             </Drawer.Section>
         </View>
