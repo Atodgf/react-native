@@ -40,14 +40,12 @@ const App = () => {
       case 'LOGIN':
         return {
           ...prevState,
-          login: action.id,
           userToken: action.token,
           isLoading: false,
         };
       case 'LOGOUT':
         return {
           ...prevState,
-          login:null,
           userToken: null,
           isLoading: false,
         };
@@ -55,7 +53,7 @@ const App = () => {
         return {
           ...prevState,
           login: action.id,
-          userToken: action.token,
+          password: action.value,
           isLoading: false,
         };   
     }
@@ -66,19 +64,26 @@ const App = () => {
     signIn: async(login, password) => {
       let userToken
       userToken = null
-      if (login == 'user' && password == 'root') {
-        try {
-          userToken='asdas'
-          await AsyncStorage.setItem('userToken', userToken)
-        } catch(e) {
-          console.log(e)
-        }
+      const storagelogin = await AsyncStorage.getItem('login')
+      const storagePassword = await AsyncStorage.getItem('password')
+      if (login === storagelogin && password === storagePassword) {
+          try {
+            userToken= "righttoken"
+            await AsyncStorage.setItem('userToken', userToken)
+            await AsyncStorage.getItem('login')
+          } catch(e) {
+            console.log(e)
+          }
+      } else {
+        console.log('Fail')
       }
-      dispatch({type: 'LOGIN', id: login, token: userToken})
+      dispatch({type: 'LOGIN', token: userToken})
     },
     signOut: async() => {
       dispatch({type: 'LOGOUT'})
       try {
+        await AsyncStorage.removeItem('login')
+        await AsyncStorage.removeItem('password')
         await AsyncStorage.removeItem('userToken')
       } catch(e) {
         console.log(e)
@@ -86,24 +91,16 @@ const App = () => {
     },
 
     signUp: async(login, password) => {
-      // console.log(login)
-      console.log(loginState)
-      // const storedLogin =  AsyncStorage.getItem('login')
-      //                 .then(i => console.log(i))
-      // const storedPassword =  AsyncStorage.getItem('login')
-      //                 .then(i => console.log(i))
           try {
-            login=login
-            password=password
             await AsyncStorage.setItem('login', login)
             await AsyncStorage.setItem('password', password)
-            
           } catch(e) {
             console.log(e)
         }
-      dispatch({type: 'REGISTER', id: login})
+        
+      dispatch({type: 'REGISTER', id: login, value: password})
     }
-  }), [])
+  }), 1000)
 
 
   useEffect(() => {
@@ -116,7 +113,7 @@ const App = () => {
       }
       dispatch({type: 'RETRIEVE_TOKEN', token: userToken})
     }, 1000)
-  }, [])
+  }, 10000)
 
   if (loginState.isLoading) {
     return(
@@ -129,7 +126,7 @@ const App = () => {
   return (
     <AuthContext.Provider value={authContext}>
         <NavigationContainer>
-        {loginState.userToken !== null? (
+        {loginState.userToken === "righttoken"? (
           <Drawer.Navigator drawerContent={props =><DrawerContent {...props}/>}>
             <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
             <Drawer.Screen name="Login" component={Login}/>

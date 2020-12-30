@@ -75,7 +75,8 @@ const Login = ({navigation}) =>{
                         borderWidth: 1,
                         marginTop:15
                     }]}
-                >
+                    onPress={() => navigation.navigate("Register")}>
+
                     <Text style={[styles.textSign, {
                         color: '#009387'
                     }]}>Sign Up!</Text>

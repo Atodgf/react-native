@@ -16,12 +16,11 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { AuthContext } from '../components/context'
 
-export default function DrawerContent (props) {
+export default function DrawerContent ({props, navigation}) {
     const [isDarkTheme, setIsDarkTheme] = React.useState(false)
 
     const { signOut } = React.useContext(AuthContext)
 
-    const { HomeScreen } = React.useContext(AuthContext)
 
     const toggleTheme = () => {
         setIsDarkTheme(!isDarkTheme)
@@ -63,7 +62,7 @@ export default function DrawerContent (props) {
                                 />
                             )}
                                 label="Home"
-                                onPress={() => {props.navigation.navigate('HomeScreen')}}
+                                onPress={() => navigation.navigate("Home")}
                         />
                          
                          
@@ -76,7 +75,7 @@ export default function DrawerContent (props) {
                                 />
                                 )}
                                 label="Details"
-                                onPress={() => {props.navigation.navigate('DetailsScreen')}}
+                                onPress={() => navigation.navigate('Details')}
                             />                
                     </Drawer.Section>
                     <Drawer.Section title="Preferences">

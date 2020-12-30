@@ -1,6 +1,6 @@
 
 import React from "react";
-import { View, Text, TouchableOpacity,  TextInput, StyleSheet, StatusBar, AsyncStorage } from 'react-native';
+import { View, Text, TouchableOpacity,  TextInput, StyleSheet, StatusBar } from 'react-native';
 
 
 import { AuthContext } from '../components/context'
@@ -13,12 +13,6 @@ const Register = ({navigation}) =>{
     })
 
     const { signUp } = React.useContext(AuthContext)
-    const { signIn } = React.useContext(AuthContext)
-
-    const loginHandle = (login, password) => {
-        
-        signIn(login, password)
-    }
 
     const handleLoginChange = (val) => {
         setData({
@@ -73,7 +67,7 @@ const Register = ({navigation}) =>{
                             marginTop:15
                         }]}
                         onPress={()=> {registerHandle(data.login, data.password)}}>
-                    <Text style={styles.textSign}>Sign In</Text>
+                    <Text style={styles.textSign}>Sign Up</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                     style={[styles.signIn, {
@@ -81,7 +75,7 @@ const Register = ({navigation}) =>{
                         borderWidth: 1,
                         marginTop:15
                     }]}
-                    onPress={()=> {loginHandle(data.login, data.password)}}>
+                    onPress={() => navigation.goBack()}>
                     <Text style={[styles.textSign, {
                         color: '#009387'
                     }]}>Cancel</Text>

@@ -9,15 +9,15 @@ export default class Login extends React.Component{
         return (
             <View style={{backgroundColor:"#FFF", height: "100%"}}>
                 <Image source={require('../images/home.jpg')}
-                    style={{width: "100%", height:"50%"}}
+                    style={{width: "100%", height:"70%"}}
                 />
                 
                 <View style={{
                     flexDirection:"row",
-                    alignItem: "center",
+                    alignItems: "center",
                     marginHorizontal:55,
-                    marginTop:50,
-                    paddingHorizontal:10,
+                    marginTop:30,
+                    paddingHorizontal:60,
                     paddingVertical:2
                 }}>
                     <Text>Welcome to Home Page!</Text>
