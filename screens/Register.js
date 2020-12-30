@@ -66,7 +66,8 @@ const Register = ({navigation}) =>{
                             borderWidth: 1,
                             marginTop:15
                         }]}
-                        onPress={()=> {registerHandle(data.login, data.password)}}>
+                        onPress={()=> {registerHandle(data.login, data.password)}}
+                        onPressIn={() => {navigation.navigate("Login")}}>
                     <Text style={styles.textSign}>Sign Up</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
