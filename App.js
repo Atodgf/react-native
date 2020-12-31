@@ -1,20 +1,15 @@
 import React, { useEffect}from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-
+import { ActivityIndicator} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import MainTabScreen from './screens/MainTabScreen'
 import Login from './screens/Login'
 import Register from './screens/Register'
-
-
 import { AuthContext } from './components/context'
-
 import AsyncStorage from '@react-native-community/async-storage'
 import DrawerContent from './screens/DrawerContent'
-
 import RootStackScreen from './screens/RootStackScreen'
 import { View } from 'react-native-animatable';
-import { ActivityIndicator} from 'react-native';
 
 
 const Drawer = createDrawerNavigator();
@@ -100,7 +95,7 @@ const App = () => {
         
       dispatch({type: 'REGISTER', id: login, value: password})
     }
-  }), 1000)
+  }), [])
 
 
   useEffect(() => {
@@ -113,7 +108,7 @@ const App = () => {
       }
       dispatch({type: 'RETRIEVE_TOKEN', token: userToken})
     }, 1000)
-  }, 10000)
+  }, [])
 
   if (loginState.isLoading) {
     return(

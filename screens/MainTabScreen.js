@@ -1,16 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-
 import Icon from 'react-native-vector-icons/Ionicons'
-
 import HomeScreen from './HomeScreen'
 import DetailsScreen from './DetailsScreen'
 
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
-
 const Tab = createBottomTabNavigator()
 
 const MainTabScreen = () => (

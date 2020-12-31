@@ -1,7 +1,6 @@
 
 import React from "react";
-import { View, Text, TouchableOpacity,  TextInput, StyleSheet, StatusBar, AsyncStorage } from 'react-native';
-
+import { View, Text, TouchableOpacity,  TextInput, StyleSheet, StatusBar } from 'react-native';
 import { AuthContext } from '../components/context'
 
 const Login = ({navigation}) =>{
@@ -37,7 +36,7 @@ const Login = ({navigation}) =>{
         <View style={styles.container}>
             <StatusBar backgroundColor='#fff' barStyle='light-content'/>
             <View style={styles.header}>
-                <Text style={styles.text_header}>Login please!</Text> 
+                <Text style={styles.text_header}>Login here!</Text> 
             </View>
             <View style={styles.footer}>
                 <Text style={styles.text_footer}>Login</Text>

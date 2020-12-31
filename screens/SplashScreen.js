@@ -1,7 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Dimensions, StyleSheet, Image } from 'react-native';
-
-
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const SplashScreen = ({navigation}) => {
@@ -46,8 +44,6 @@ const SplashScreen = ({navigation}) => {
 
 export default SplashScreen;
 
-const {height} = Dimensions.get("screen");
-const height_logo = height * 0.28;
 
 const styles = StyleSheet.create({
   container: {
@@ -62,14 +58,12 @@ const styles = StyleSheet.create({
   footer: {
       flex: 1,
       backgroundColor: '#fff',
-      borderTopLeftRadius: 30,
-      borderTopRightRadius: 30,
       paddingVertical: 50,
       paddingHorizontal: 30
   },
   logo: {
-        width: height_logo,
-        height: height_logo
+        width: "100%",
+        height: "100%",
   },
   title: {
       color: '#05375a',
