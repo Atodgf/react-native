@@ -1,19 +1,15 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch } from "react-native-paper";
+import { Avatar, Title, Caption, Paragraph, Drawer } from "react-native-paper";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthContext } from '../components/context'
 
 export default function DrawerContent ({props, navigation}) {
-    const [isDarkTheme, setIsDarkTheme] = React.useState(false)
 
     const { signOut } = React.useContext(AuthContext)
 
 
-    const toggleTheme = () => {
-        setIsDarkTheme(!isDarkTheme)
-    }
     return (
         <View style={{flex:1}}>
             <DrawerContentScrollView {...props}> 
@@ -53,8 +49,6 @@ export default function DrawerContent ({props, navigation}) {
                                 label="Home"
                                 onPress={() => navigation.navigate("Home")}
                         />
-                         
-                         
                         <Drawer.Item 
                         icon={({color, size}) => (
                                 <Icon 
@@ -66,16 +60,6 @@ export default function DrawerContent ({props, navigation}) {
                                 label="Details"
                                 onPress={() => navigation.navigate('Details')}
                             />                
-                    </Drawer.Section>
-                    <Drawer.Section title="Preferences">
-                            <TouchableRipple onPress={() => {toggleTheme()}}>
-                                <View style={styles.preference}>
-                                    <Text>Dark Theme</Text>
-                                    <View pointerEvents="none">
-                                        <Switch value={isDarkTheme}/>
-                                    </View>
-                                </View>
-                            </TouchableRipple>
                     </Drawer.Section>
                 </View>
             </DrawerContentScrollView>

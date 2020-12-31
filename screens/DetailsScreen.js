@@ -4,8 +4,7 @@ import { View, Text, Button, StyleSheet, Image } from 'react-native';
 const DetailsScreen = ({navigation}) => {
     return (
       <View>
-
-        <Image source={require('../images/registration.jpg')}
+        <Image source={require('../images/details.jpg')}
                             style={{width: "100%", height:"80%"}}
                         />
         <View style={styles.container}>

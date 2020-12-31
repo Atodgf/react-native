@@ -1,6 +1,6 @@
 
 import React from "react";
-import { View, Text, TouchableOpacity,  TextInput, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity,  TextInput, StyleSheet, StatusBar, Image } from 'react-native';
 import { AuthContext } from '../components/context'
 
 const Register = ({navigation}) =>{
@@ -36,7 +36,9 @@ const Register = ({navigation}) =>{
         <View style={styles.container}>
             <StatusBar backgroundColor='#fff' barStyle='light-content'/>
             <View style={styles.header}>
-                <Text style={styles.text_header}>Register here!</Text> 
+                <Image source={require('../images/register.jpg')}
+                                    style={{width: "100%", height:"100%"}}
+                                />
             </View>
             <View style={styles.footer}>
                 <Text style={styles.text_footer}>Login</Text>
@@ -94,14 +96,10 @@ const styles = StyleSheet.create({
     header: {
         flex: 1,
         justifyContent: 'flex-end',
-        paddingHorizontal: 20,
-        paddingBottom: 50
     },
     footer: {
         flex: 3,
         backgroundColor: '#fff',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
         paddingHorizontal: 20,
         paddingVertical: 30
     },

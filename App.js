@@ -1,6 +1,6 @@
 import React, { useEffect}from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { ActivityIndicator} from 'react-native';
+import { ActivityIndicator, Alert} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import MainTabScreen from './screens/MainTabScreen'
 import Login from './screens/Login'
@@ -71,14 +71,15 @@ const App = () => {
           }
       } else {
         console.log('Fail')
+        Alert.alert(
+          'Wrong login or password!',
+          'Please try again!',)
       }
       dispatch({type: 'LOGIN', token: userToken})
     },
     signOut: async() => {
       dispatch({type: 'LOGOUT'})
       try {
-        await AsyncStorage.removeItem('login')
-        await AsyncStorage.removeItem('password')
         await AsyncStorage.removeItem('userToken')
       } catch(e) {
         console.log(e)
