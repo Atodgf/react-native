@@ -1,6 +1,6 @@
 
 import React from "react";
-import { View, Text, TouchableOpacity,  TextInput, StyleSheet, StatusBar, Image } from 'react-native';
+import { View, Text, TouchableOpacity,  TextInput, StyleSheet, StatusBar, Image, Alert } from 'react-native';
 import { AuthContext } from '../components/context'
 
 const Register = ({navigation}) =>{
@@ -8,6 +8,7 @@ const Register = ({navigation}) =>{
     const [data, setData] = React.useState ({
         login: '',
         password: '',
+        confirmPassword: ''
     })
 
     const { signUp } = React.useContext(AuthContext)
@@ -25,10 +26,25 @@ const Register = ({navigation}) =>{
             password:val
         })
     }
+    const handleConfirmPasswordChange = (val) => {
+        setData({
+            ...data,
+            confirmPassword:val
+        })
+    }
 
 
     const registerHandle = (login, password) => {
-        signUp(login, password)
+        
+        if ( data.password !== data.confirmPassword ) {
+            Alert.alert('Wrong Input!', 'Password doesn\'t match', [
+                {text: 'Okay'}
+            ]);
+            return;
+        }  else {
+            navigation.navigate("Login")
+            signUp(login, password)
+        }
     }
 
 
@@ -60,14 +76,24 @@ const Register = ({navigation}) =>{
                         onChangeText={(val) => handlePasswordChange(val)}
                     />
                 </View>
+                <Text style={[styles.text_footer, {marginTop: 35}]}>Confirm Password</Text>
+                <View style={styles.action}>
+                    <TextInput 
+                        placeholder="Confirm Your Password"
+                        secureTextEntry={true}
+                        style={styles.textInput}
+                        autoCapitalize="none"
+                        onChangeText={(val) => handleConfirmPasswordChange(val)}
+                    />
+                </View>
                 <TouchableOpacity  
                     style={[styles.signIn, {
                             borderColor: '#009387',
                             borderWidth: 1,
-                            marginTop:15
+                            marginTop:25
                         }]}
                         onPress={()=> {registerHandle(data.login, data.password)}}
-                        onPressIn={() => {navigation.navigate("Login")}}>
+                        >
                     <Text style={styles.textSign}>Sign Up</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
