@@ -8,7 +8,8 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Alert
  } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
 
@@ -21,7 +22,6 @@ import Icon from 'react-native-vector-icons/Ionicons'
     super(props)
     this.state={
       city:"Minsk",
-      data:[],
       icon:"",
       cityDisplay:"",
       desc:"",
@@ -34,23 +34,49 @@ import Icon from 'react-native-vector-icons/Ionicons'
   }
 
   fetchWeather=()=>{
-    fetch('http://api.openweathermap.org/data/2.5/weather?q='+this.state.city+'&appid=de68b0392ab9d2b6c38dfd49641e76be')  
+    fetch('http://api.openweathermap.org/data/2.5/forecast?q='+this.state.city+'&appid=de68b0392ab9d2b6c38dfd49641e76be')  
     .then((responce)=>responce.json())
     .then((json=>{
-      this.setState({data:json})
-      this.setState({temp:(json.main.temp-273.15).toFixed(2)+" C"})
-      this.setState({cityDisplay:json.name})
-      this.setState({country:json.sys.country})
-      this.setState({icon:json.weather[0].icon})
-      this.setState({main:json.weather[0].main})
-      this.setState({desc:json.weather[0].description})
-      this.setState({pressure:json.main.pressure+" hPa"})
-      this.setState({wind:json.wind.speed+" m/s"})
-    })).catch((err)=> console.error(err))
+      this.setState({temp:(json.list[0].main.temp-273.15).toFixed(2)+" C"})
+      this.setState({cityDisplay:json.city.name})
+      this.setState({country:json.city.country})
+      this.setState({icon:json.list[0].weather[0].icon})
+      this.setState({main:json.list[0].weather[0].main})
+      this.setState({desc:json.list[0].weather[0].description})
+      this.setState({pressure:json.list[0].main.pressure+" hPa"})
+      this.setState({wind:json.list[0].wind.speed+" m/s"})
+    })).catch(()=> Alert.alert('Can\'t find city with that name!'))
+  }
+  fetchWeatherTomorrow=()=>{
+    fetch('http://api.openweathermap.org/data/2.5/forecast?q='+this.state.city+'&appid=de68b0392ab9d2b6c38dfd49641e76be')  
+    .then((responce)=>responce.json())
+    .then((json=>{
+      this.setState({temp:(json.list[8].main.temp-273.15).toFixed(2)+" C"})
+      this.setState({cityDisplay:json.city.name})
+      this.setState({country:json.city.country})
+      this.setState({icon:json.list[8].weather[0].icon})
+      this.setState({main:json.list[8].weather[0].main})
+      this.setState({desc:json.list[8].weather[0].description})
+      this.setState({pressure:json.list[8].main.pressure+" hPa"})
+      this.setState({wind:json.list[8].wind.speed+" m/s"})
+    })).catch(()=> Alert.alert('Can\'t find city with that name!'))
+  }
+  fetchWeatherDayAfterTomorrow=()=>{
+    fetch('http://api.openweathermap.org/data/2.5/forecast?q='+this.state.city+'&appid=de68b0392ab9d2b6c38dfd49641e76be')  
+    .then((responce)=>responce.json())
+    .then((json=>{
+      this.setState({temp:(json.list[16].main.temp-273.15).toFixed(2)+" C"})
+      this.setState({cityDisplay:json.city.name})
+      this.setState({country:json.city.country})
+      this.setState({icon:json.list[16].weather[0].icon})
+      this.setState({main:json.list[16].weather[0].main})
+      this.setState({desc:json.list[16].weather[0].description})
+      this.setState({pressure:json.list[16].main.pressure+" hPa"})
+      this.setState({wind:json.list[16].wind.speed+" m/s"})
+    })).catch(()=> Alert.alert('Can\'t find city with that name!'))
   }
 
   render() {
-    const date = new Date().toLocaleString()
 
      return(
        <SafeAreaView style={styles.container}>
@@ -63,15 +89,19 @@ import Icon from 'react-native-vector-icons/Ionicons'
                 placeholderTextColor="#FFF"
                 style={styles.searchBox}
                 onChangeText={(text)=>this.setState({city:text})}
-              />
-              
-            <TouchableOpacity style={styles.buttonSearch} onPress={this.fetchWeather}>
-              <Icon name="search-outline" size={24} color ="#FFF"/>
-            </TouchableOpacity>  
+              />  
           </View>
 
-          <View>
-            <Text>{date}</Text>
+          <View style={styles.searchButtonView}>
+              <TouchableOpacity style={styles.buttonSearch} onPress={this.fetchWeather}>
+                <Icon name="search-outline" size={24} color ="#FFF"><Text> Today</Text></Icon>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.buttonSearch} onPress={this.fetchWeatherTomorrow}>
+                <Icon name="search-outline" size={24} color ="#FFF"><Text> Tomorrow</Text></Icon>
+              </TouchableOpacity>  
+              <TouchableOpacity style={styles.buttonSearch} onPress={this.fetchWeatherDayAfterTomorrow}>
+                <Icon name="search-outline" size={24} color ="#FFF"><Text> Day after tomorrow</Text></Icon>
+              </TouchableOpacity> 
           </View>
 
           <View style={styles.weatherBoxMain}>
@@ -109,14 +139,14 @@ import Icon from 'react-native-vector-icons/Ionicons'
      width:"100%"
    },
    searchBoxView: {
-     height:"20%",
+     height:"12%",
      width:"100%",
      justifyContent:"center",
      alignItems:"center",
      flexDirection:"row"
    },
    searchBox: {
-    height:"35%",
+    height:"45%",
     width:"80%",
     borderColor:"#009387",
     borderRadius:15,
@@ -124,12 +154,18 @@ import Icon from 'react-native-vector-icons/Ionicons'
     color:"#FFF",
     paddingHorizontal:15
   },
+  searchButtonView: {
+    height:"12%",
+    width:"90%",
+  },
   buttonSearch:{
-    marginLeft:"5%",
-    height:"35%",
-    width:"8%",
-    justifyContent:"center",
-    alignItems:"center"
+    borderColor:"#009387",
+    borderRadius:15,
+    borderWidth:1,
+    color:"#FFF",
+    paddingHorizontal:15,
+    marginLeft:"10%",
+    marginBottom:"3%"
   },
   weatherBoxMain:{
     height:"30%",
@@ -166,11 +202,10 @@ import Icon from 'react-native-vector-icons/Ionicons'
     width:"90%",
     backgroundColor:"rgba(255,255,255,0.7)",
     borderRadius:15,
-    marginBottom:"0%",
   },
 
   infoBoxView:{
-    height:"45%",
+    height:"24%",
     width:"100%",
     justifyContent:"center",
     alignItems:"center",
@@ -179,7 +214,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
     fontSize:28,
     color:"#121212",
     marginLeft:"8%",
-    marginTop:"4%"
+    marginTop:"1%"
   },
   descText:{
     fontSize:20,
