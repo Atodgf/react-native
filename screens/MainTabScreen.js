@@ -3,11 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons'
 import HomeScreen from './HomeScreen'
-import DetailsScreen from './DetailsScreen'
+import WeatherScreen from './WeatherScreen'
 
 
 const HomeStack = createStackNavigator();
-const DetailsStack = createStackNavigator();
+const WeatherStack = createStackNavigator();
 const Tab = createBottomTabNavigator()
 
 const MainTabScreen = () => (
@@ -29,12 +29,12 @@ const MainTabScreen = () => (
         }}
       />
       <Tab.Screen
-        name="Details"
-        component={DetailsStackScreen}
+        name="Weather"
+        component={WeatherStackScreen}
         options={{
-          tabBarLabel: 'Details',
+          tabBarLabel: 'Weather',
           tabBarIcon: ({ color, size }) => (
-            <Icon name="bulb-outline" color={color} size={size} />
+            <Icon name="rainy-outline" color={color} size={size} />
           ),
         }}
       />
@@ -61,18 +61,18 @@ const HomeStackScreen = ({navigation}) => (
   </HomeStack.Navigator>
 )
 
-const DetailsStackScreen = ({navigation}) => (
-  <DetailsStack.Navigator screenOptions={{
+const WeatherStackScreen = ({navigation}) => (
+  <WeatherStack.Navigator screenOptions={{
           headerStyle: {
             backgroundColor: '#009387'
           },
           headerTintColor: '#fff'
       }}>
-    <DetailsStack.Screen name="Details" component={DetailsScreen} options={{
+    <WeatherStack.Screen name="Weather" component={WeatherScreen} options={{
       headerLeft: () => (
           <Icon.Button name="apps-outline" size={25}
           backgroundColor="#009387" onPress={() => navigation.openDrawer()}></Icon.Button>
         )
   }}/>
-</DetailsStack.Navigator>
+</WeatherStack.Navigator>
 )
