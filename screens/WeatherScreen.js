@@ -37,7 +37,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
     fetch('http://api.openweathermap.org/data/2.5/forecast?q='+this.state.city+'&appid=de68b0392ab9d2b6c38dfd49641e76be')  
     .then((responce)=>responce.json())
     .then((json=>{
-      this.setState({temp:(json.list[0].main.temp-273.15).toFixed(2)+" C"})
+      this.setState({temp:(json.list[0].main.temp-273.15).toFixed(1)+" °C"})
       this.setState({cityDisplay:json.city.name})
       this.setState({country:json.city.country})
       this.setState({icon:json.list[0].weather[0].icon})
@@ -51,7 +51,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
     fetch('http://api.openweathermap.org/data/2.5/forecast?q='+this.state.city+'&appid=de68b0392ab9d2b6c38dfd49641e76be')  
     .then((responce)=>responce.json())
     .then((json=>{
-      this.setState({temp:(json.list[8].main.temp-273.15).toFixed(2)+" C"})
+      this.setState({temp:(json.list[8].main.temp-273.15).toFixed(1)+" C"})
       this.setState({cityDisplay:json.city.name})
       this.setState({country:json.city.country})
       this.setState({icon:json.list[8].weather[0].icon})
@@ -65,7 +65,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
     fetch('http://api.openweathermap.org/data/2.5/forecast?q='+this.state.city+'&appid=de68b0392ab9d2b6c38dfd49641e76be')  
     .then((responce)=>responce.json())
     .then((json=>{
-      this.setState({temp:(json.list[16].main.temp-273.15).toFixed(2)+" C"})
+      this.setState({temp:(json.list[16].main.temp-273.15).toFixed(1)+" C"})
       this.setState({cityDisplay:json.city.name})
       this.setState({country:json.city.country})
       this.setState({icon:json.list[16].weather[0].icon})
@@ -94,13 +94,13 @@ import Icon from 'react-native-vector-icons/Ionicons'
 
           <View style={styles.searchButtonView}>
               <TouchableOpacity style={styles.buttonSearch} onPress={this.fetchWeather}>
-                <Icon name="search-outline" size={24} color ="#FFF"><Text> Today</Text></Icon>
+                <Icon name="search-outline" size={24} color ="#FFF"><Text style={styles.buttonText}> Today</Text></Icon>
               </TouchableOpacity>
               <TouchableOpacity style={styles.buttonSearch} onPress={this.fetchWeatherTomorrow}>
-                <Icon name="search-outline" size={24} color ="#FFF"><Text> Tomorrow</Text></Icon>
+                <Icon name="search-outline" size={24} color ="#FFF"><Text style={styles.buttonText}> Tomorrow</Text></Icon>
               </TouchableOpacity>  
               <TouchableOpacity style={styles.buttonSearch} onPress={this.fetchWeatherDayAfterTomorrow}>
-                <Icon name="search-outline" size={24} color ="#FFF"><Text> Day after tomorrow</Text></Icon>
+                <Icon name="search-outline" size={24} color ="#FFF"><Text style={styles.buttonText}> Day after tomorrow</Text></Icon>
               </TouchableOpacity> 
           </View>
 
@@ -149,6 +149,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
     height:"45%",
     width:"80%",
     borderColor:"#009387",
+    backgroundColor:"rgba(0, 147, 135,0.1)",
     borderRadius:15,
     borderWidth:1,
     color:"#FFF",
@@ -156,16 +157,23 @@ import Icon from 'react-native-vector-icons/Ionicons'
   },
   searchButtonView: {
     height:"12%",
-    width:"90%",
+    width:"70%",
+    marginBottom:"5%",
+    marginLeft:"3%",
+    
   },
   buttonSearch:{
     borderColor:"#009387",
+    backgroundColor:"rgba(0, 147, 135,0.4)",
     borderRadius:15,
     borderWidth:1,
     color:"#FFF",
     paddingHorizontal:15,
     marginLeft:"10%",
-    marginBottom:"3%"
+    marginBottom:"3%",
+  },
+  buttonText:{
+    fontSize:20
   },
   weatherBoxMain:{
     height:"30%",
