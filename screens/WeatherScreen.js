@@ -61,7 +61,7 @@ const  Weather = () => {
       country:"",
   })
   
-
+  console.log(location)
  
   const fetchWeather=(i)=>{
     fetch('http://api.openweathermap.org/data/2.5/forecast?q='+data.city+'&appid=de68b0392ab9d2b6c38dfd49641e76be')  
