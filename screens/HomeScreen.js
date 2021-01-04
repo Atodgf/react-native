@@ -4,7 +4,6 @@ import {Text, View, Image} from "react-native";
 export default class Home extends React.Component{
 
     render () {
-        const {navigate} = this.props.navigation
         return (
             <View style={{backgroundColor:"#FFF", height: "100%"}}>
                 <Image source={require('../images/home.jpg')}

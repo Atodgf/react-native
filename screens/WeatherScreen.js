@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   View,
   SafeAreaView,
@@ -12,16 +12,46 @@ import {
   Alert
  } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
+import * as Location from 'expo-location';
 
- const Dev_Height = Dimensions.get('window').height
- const Dev_Width = Dimensions.get('window').width
+const Dev_Height = Dimensions.get('window').height
+const Dev_Width = Dimensions.get('window').width
 
- export default class Weather extends React.Component {
+
+const  Weather = () => {
+
+  const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission to access location was denied')
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      fetch('http://api.openweathermap.org/data/2.5/forecast?lat='+location.coords.latitude+'&lon='+location.coords.longitude+'&appid=de68b0392ab9d2b6c38dfd49641e76be')  
+        .then((responce)=>responce.json())
+        .then((json=>{
+          setData({
+            temp:((json.list[0].main.temp-273.15).toFixed(1)+" °C"),
+            cityDisplay:json.city.name,
+            country:json.city.country,
+            icon:json.list[0].weather[0].icon,
+            main:json.list[0].weather[0].main,
+            desc:json.list[0].weather[0].description,
+            pressure:json.list[0].main.pressure+" hPa",
+            wind:json.list[0].wind.speed+" m/s"
+            })
+        })).catch((err)=> console.log(err))
+      setLocation(location);
+    })();
+  }, []);
   
-  constructor(props) {
-    super(props)
-    this.state={
-      city:"Minsk",
+
+  const [data, setData] = React.useState ({
+      city:"",
       icon:"",
       cityDisplay:"",
       desc:"",
@@ -29,57 +59,37 @@ import Icon from 'react-native-vector-icons/Ionicons'
       wind: "",
       pressure:"",
       country:"",
-    }
-    this.fetchWeather()
-  }
+  })
+  
 
-  fetchWeather=()=>{
-    fetch('http://api.openweathermap.org/data/2.5/forecast?q='+this.state.city+'&appid=de68b0392ab9d2b6c38dfd49641e76be')  
+ 
+  const fetchWeather=(i)=>{
+    fetch('http://api.openweathermap.org/data/2.5/forecast?q='+data.city+'&appid=de68b0392ab9d2b6c38dfd49641e76be')  
     .then((responce)=>responce.json())
     .then((json=>{
-      this.setState({temp:(json.list[0].main.temp-273.15).toFixed(1)+" °C"})
-      this.setState({cityDisplay:json.city.name})
-      this.setState({country:json.city.country})
-      this.setState({icon:json.list[0].weather[0].icon})
-      this.setState({main:json.list[0].weather[0].main})
-      this.setState({desc:json.list[0].weather[0].description})
-      this.setState({pressure:json.list[0].main.pressure+" hPa"})
-      this.setState({wind:json.list[0].wind.speed+" m/s"})
-    })).catch(()=> Alert.alert('Can\'t find city with that name!'))
-  }
-  fetchWeatherTomorrow=()=>{
-    fetch('http://api.openweathermap.org/data/2.5/forecast?q='+this.state.city+'&appid=de68b0392ab9d2b6c38dfd49641e76be')  
-    .then((responce)=>responce.json())
-    .then((json=>{
-      this.setState({temp:(json.list[8].main.temp-273.15).toFixed(1)+" C"})
-      this.setState({cityDisplay:json.city.name})
-      this.setState({country:json.city.country})
-      this.setState({icon:json.list[8].weather[0].icon})
-      this.setState({main:json.list[8].weather[0].main})
-      this.setState({desc:json.list[8].weather[0].description})
-      this.setState({pressure:json.list[8].main.pressure+" hPa"})
-      this.setState({wind:json.list[8].wind.speed+" m/s"})
-    })).catch(()=> Alert.alert('Can\'t find city with that name!'))
-  }
-  fetchWeatherDayAfterTomorrow=()=>{
-    fetch('http://api.openweathermap.org/data/2.5/forecast?q='+this.state.city+'&appid=de68b0392ab9d2b6c38dfd49641e76be')  
-    .then((responce)=>responce.json())
-    .then((json=>{
-      this.setState({temp:(json.list[16].main.temp-273.15).toFixed(1)+" C"})
-      this.setState({cityDisplay:json.city.name})
-      this.setState({country:json.city.country})
-      this.setState({icon:json.list[16].weather[0].icon})
-      this.setState({main:json.list[16].weather[0].main})
-      this.setState({desc:json.list[16].weather[0].description})
-      this.setState({pressure:json.list[16].main.pressure+" hPa"})
-      this.setState({wind:json.list[16].wind.speed+" m/s"})
+      setData({...data,
+        temp:((json.list[i].main.temp-273.15).toFixed(1)+" °C"),
+        cityDisplay:json.city.name,
+        country:json.city.country,
+        icon:json.list[i].weather[0].icon,
+        main:json.list[i].weather[0].main,
+        desc:json.list[i].weather[0].description,
+        pressure:json.list[i].main.pressure+" hPa",
+        wind:json.list[i].wind.speed+" m/s"
+        })
     })).catch(()=> Alert.alert('Can\'t find city with that name!'))
   }
 
-  render() {
+  const handleCityChange = (val) => {
+    setData({
+        ...data,
+        city:val
+    })
+}
 
-     return(
-       <SafeAreaView style={styles.container}>
+
+  return(
+      <SafeAreaView style={styles.container}>
         <ImageBackground source={{
           uri:"https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"}}
           style={styles.imageBackgroundStyle}>
@@ -88,47 +98,48 @@ import Icon from 'react-native-vector-icons/Ionicons'
                 placeholder="Search"
                 placeholderTextColor="#FFF"
                 style={styles.searchBox}
-                onChangeText={(text)=>this.setState({city:text})}
+                onChangeText={(val) => handleCityChange(val)}
               />  
           </View>
 
           <View style={styles.searchButtonView}>
-              <TouchableOpacity style={styles.buttonSearch} onPress={this.fetchWeather}>
+              <TouchableOpacity style={styles.buttonSearch} onPress={()=>fetchWeather(0)}>
                 <Icon name="search-outline" size={24} color ="#FFF"><Text style={styles.buttonText}> Today</Text></Icon>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonSearch} onPress={this.fetchWeatherTomorrow}>
+              <TouchableOpacity style={styles.buttonSearch} onPress={()=>fetchWeather(8)}>
                 <Icon name="search-outline" size={24} color ="#FFF"><Text style={styles.buttonText}> Tomorrow</Text></Icon>
               </TouchableOpacity>  
-              <TouchableOpacity style={styles.buttonSearch} onPress={this.fetchWeatherDayAfterTomorrow}>
+              <TouchableOpacity style={styles.buttonSearch} onPress={()=>fetchWeather(16)}>
                 <Icon name="search-outline" size={24} color ="#FFF"><Text style={styles.buttonText}> Day after tomorrow</Text></Icon>
               </TouchableOpacity> 
           </View>
 
           <View style={styles.weatherBoxMain}>
             <View style={styles.weatherHolderView}>
-              <Image source={{uri:"http://openweathermap.org/img/wn/"+this.state.icon+"@2x.png"}} style={styles.weatherImage}/>
+              <Image source={{uri:"http://openweathermap.org/img/wn/"+data.icon+"@2x.png"}} style={styles.weatherImage}/>
               <View>
-                <Text style={styles.temperatureText}>{this.state.temp}</Text>
-                <Text style={styles.cityText}>{this.state.cityDisplay}</Text>
-                <Text style={styles.cityText}>{this.state.country}</Text>
+                <Text style={styles.temperatureText}>{data.temp}</Text>
+                <Text style={styles.cityText}>{data.cityDisplay}</Text>
+                <Text style={styles.cityText}>{data.country}</Text>
               </View>
             </View>
           </View>
           <View style={styles.infoBoxView}>
             <View style={styles.infoHolderView}>
-              <Text style={styles.mainWeatherText}>{this.state.main}</Text>
-              <Text style={styles.descText}>{this.state.desc}</Text>
-              <Text style={styles.otherText}>Pressure: {this.state.pressure}</Text>
-              <Text style={styles.otherText}>Wind: {this.state.wind}</Text>
+              <Text style={styles.mainWeatherText}>{data.main}</Text>
+              <Text style={styles.descText}>Description: {data.desc}</Text>
+              <Text style={styles.otherText}>Pressure: {data.pressure}</Text>
+              <Text style={styles.otherText}>Wind: {data.wind}</Text>
             </View>
           </View>
         </ImageBackground>
   
-       </SafeAreaView>
-     )
-   }
- }
+      </SafeAreaView>
+    )
+  }
+ 
 
+ export default Weather
  const styles = StyleSheet.create({
    container: {
      height: Dev_Height,
